@@ -1,0 +1,68 @@
+# Directories
+dir:
+  build: 'www'
+  content: 'src/content'
+  layout: 'jade'
+  source: 'src'
+  media: 'src/assets'
+
+# Cleaning
+clean:
+  build: '<%= dir.build %>'
+
+# Copy bootstrap
+copy:
+  all:
+files: {'<%= dir.build %>/boostrap.min.css': 'vendor/boostrap.min.css' }
+
+# CoffeeScript
+coffee:
+  all:
+    cwd: '<%= dir.source %>/coffee'
+    dest: '<%= dir.build %>/js'
+    expand: true
+    ext: '.js'
+    src: ['**/*.coffee', '**/*.coffee.md']
+
+# Stylus
+stylus:
+  all:
+    files:
+      -
+        cwd: "<%= dir.source %>/styl"
+        dest: "<%= dir.build %>/css"
+        expand: true
+        ext: '.css'
+        src: "**/*.styl"
+# Jade
+jade:
+  all:
+    files: 
+      -  
+        cwd: "<%= dir.source %>/jade"
+        dest: "<%= dir.build %>"
+        expand: true
+        ext: '.html'
+        pretty: true
+        src: "**/*.jade"
+
+# Serving up http
+connect:
+  server:
+    options:
+      base: "<%= dir.build %>"
+      livereload: true
+
+# Watch for changes and live reload
+watch:
+  coffee:
+    files: ["<%= dir.source %>/**/*.coffee"]
+    tasks: ['coffee']
+  jade:
+    files: ["<%= dir.source %>/**/*.jade"]
+    tasks: ['jade']
+  stylus:
+    files: ["<%= dir.source %>/**/*.styl"]
+    tasks: ['stylus']
+
+

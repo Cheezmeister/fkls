@@ -14,38 +14,27 @@ html(ng-app="fkls")
     script(src='js/app.js')
 
   body(ng-controller='MainCtrl')
-    ion-header-bar#header.bar.bar-header.bar-calm
+    ion-header-bar#header.bar.bar-header.bar-dark
       h1.title Platform is {{platform}}
       button.button.icon.ion-trash-b(ng-click='cleanup()') Cleanup
 
     // Task List
-    ion-content
-      ion-list
-        ion-item.item(ng-repeat='item in items  | orderByPriority' item='item')
-          .fkls-task
-            input(type='checkbox' ng-model='item.done')
-            span {{item.text}}
-            span.fkls-context {{item.context || '-'}}
-            span.badge.fkls-priority(class='fkls-pri-{{item.priority}}' ng-click='priorityPopover($event, item)') {{item.priority || '-'}}
+    ion-content.dark
+      ion-list.dark
+        // ion-item.dark.item.fkls-item(ng-repeat='item in items | orderBy:"priority" | orderBy:"done"' item='item')
+        ion-item.dark.item.fkls-item(ng-repeat='item in items | orderByPriority' item='item')
+          .fkls-task(on-tap='expand(this)')
+            span
+              input(id='{{item.text}}' name='chkDone' type='checkbox' ng-model='item.done')
+              label(for='{{item.text}}') {{item.text}}
+              span.badge.fkls-context(style='background: {{colorcontext(item)}}') {{item.context || '-'}}
+            span.badge.fkls-priority(class='fkls-pri-{{item.priority}}' ng-click='priorityPopover($event, item)') &nbsp;
 
     // Footer with add field
-    ion-footer-bar#footer.bar.bar-footer.bar-stable
-      label
-        input#newTask.bar(type='text' placeholder='New Task' ng-keyup="$event.keyCode == 13 && addItem()" ng-model='item')
-        i.icon.ion-search
+    ion-footer-bar#footer.bar.bar-footer.bar-dark
+      .hstretch
+        input#newTask(type='text' placeholder='New Task' ng-keyup="$event.keyCode == 13 && addItem()" ng-model='item' autocapitalize)
+        button#addTask.button.icon.ion-plus(ng-click='addItem()' type='button')
 
     script(id='templates/popover.html' type='text/ng-template')
-      ion-popover-view
-        ion-content
-          .row
-            .col: span.badge.fkls-priority.fkls-pri-A(ng-click='applyPriority("A")') A
-            .col: span.badge.fkls-priority.fkls-pri-B(ng-click='applyPriority("B")') B
-            .col: span.badge.fkls-priority.fkls-pri-C(ng-click='applyPriority("C")') C
-          .row                                       
-            .col: span.badge.fkls-priority.fkls-pri-I(ng-click='applyPriority("I")') I
-            .col: span.badge.fkls-priority.fkls-pri-J(ng-click='applyPriority("J")') J
-            .col: span.badge.fkls-priority.fkls-pri-K(ng-click='applyPriority("K")') K
-          .row                                                       
-            .col: span.badge.fkls-priority.fkls-pri-X(ng-click='applyPriority("X")') X
-            .col: span.badge.fkls-priority.fkls-pri-Y(ng-click='applyPriority("Y")') Y
-            .col: span.badge.fkls-priority.fkls-pri-Z(ng-click='applyPriority("Z")') Z
+      include popover.jade

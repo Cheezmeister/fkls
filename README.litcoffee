@@ -1,7 +1,7 @@
 FKLS
 ============
 
-[![Build Status](https://secure.travis-ci.org/cheezmeister/fkls.png)](http://travis-ci.org/cheezmeister/fkls)
+[![Build Status](https://travis-ci.org/Cheezmeister/fkls.svg?branch=master)](https://travis-ci.org/Cheezmeister/fkls)
 
 The Zero BS Task List.
 

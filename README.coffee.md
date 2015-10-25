@@ -1,6 +1,8 @@
 FKLS
 ============
 
+[![Build Status](https://secure.travis-ci.org/cheezmeister/fkls.png)](http://travis-ci.org/cheezmeister/fkls)
+
 The Zero BS Task List.
 
 [MIT Licensed.](LICENSE)

@@ -6,14 +6,9 @@ app.filter 'orderByPriority', ->
     index = (a) ->
       "#{(if !a.done then '1' else '2')}-#{a.priority}-#{a.text}"
     items.sort (a, b) ->
-      # if a.done == b.done
-      #   if a.priority == b.priority
-      #     return 0
-      #   return (a.priority || 'z') > (b.priority || 'z') ? 1 : -1
-      # (!a.done < !b.done) ? 1 : -1
       if index(a) > index(b) then 1 else -1
 
-app.controller 'MainCtrl', ($scope, $window, $ionicPopover) ->
+app.controller 'MainCtrl', ($scope, $window, $ionicPopover, util) ->
   $scope.platform = ionic.Platform.platform()
   
   # Read from local storage
@@ -43,16 +38,10 @@ app.controller 'MainCtrl', ($scope, $window, $ionicPopover) ->
     $window.localStorage[FKLS_TASKS] = angular.toJson $scope.items
   $scope.$watch 'items', onChange, true
 
-  # Expanding tapped tasks TODO
-  $scope.expand = (item) ->
-
+  # Color context badges based on hash of text
   $scope.colorcontext = (item) ->
+    hashString = util.hashString
     if !item.context then return "#888"
-    hashString = (str) ->
-      reducer = (a,b) ->
-        a=((a<<5)-a)+b.charCodeAt(0)
-        a && a
-      str.split('').reduce reducer, 0
     hashCode = hashString item.context
     hue = hashCode % 180 + 180
     "hsl(#{hue}, 50%, 50%"
@@ -61,8 +50,7 @@ app.controller 'MainCtrl', ($scope, $window, $ionicPopover) ->
   $scope.addItem = ->
     text = $scope.item
     item =
-      done: false
-      text: text # document.getElementById('newTask').value
+      text: text
       done: false
     parts = text.split ' '
     for part, index in parts

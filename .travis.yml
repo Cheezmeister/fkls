@@ -7,8 +7,7 @@ node_js:
   - "0.6"
 
 before_script:
-  - npm install -g ionic
-  - npm install -g grunt-cli
+  - npm install -g cordova ionic grunt-cli
   - ionic platform add android
 
 script: grunt && ionic build

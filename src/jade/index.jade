@@ -1,0 +1,41 @@
+
+doctype html
+html(ng-app="fkls")
+  head
+    meta(charset='utf-8')
+    meta(name='viewport' content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width")
+    title FKLS
+
+    link(rel='stylesheet' href='lib/ionic/css/ionic.css')
+    link(rel='stylesheet' href='css/fkls.css')
+
+    script(src='lib/ionic/js/ionic.bundle.js')
+    script(src='cordova.js')
+    script(src='js/utils.js')
+    script(src='js/app.js')
+
+  body(ng-controller='MainCtrl')
+    ion-header-bar#header.bar.bar-header.bar-dark
+      h1.title Platform is {{platform}}
+      button.button.icon.ion-trash-b(ng-click='cleanup()') Cleanup
+
+    // Task List
+    ion-content.dark
+      ion-list.dark
+        // ion-item.dark.item.fkls-item(ng-repeat='item in items | orderBy:"priority" | orderBy:"done"' item='item')
+        ion-item.dark.item.fkls-item(ng-repeat='item in items | orderByPriority' item='item')
+          .fkls-task(on-tap='expand(this)')
+            span
+              input(id='{{item.text}}' name='chkDone' type='checkbox' ng-model='item.done')
+              label(for='{{item.text}}') {{item.text}}
+              span.badge.fkls-context(style='background: {{colorcontext(item)}}') {{item.context || '-'}}
+            span.badge.fkls-priority(class='fkls-pri-{{item.priority}}' ng-click='priorityPopover($event, item)') &nbsp;
+
+    // Footer with add field
+    ion-footer-bar#footer.bar.bar-footer.bar-dark
+      .hstretch
+        input#newTask(type='text' placeholder='New Task' ng-keyup="$event.keyCode == 13 && addItem()" ng-model='item' autocapitalize)
+        button#addTask.button.icon.ion-plus(ng-click='addItem()' type='button')
+
+    script(id='templates/popover.html' type='text/ng-template')
+      include popover.jade

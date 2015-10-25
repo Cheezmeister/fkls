@@ -1,0 +1,14 @@
+
+language: node_js
+
+node_js:
+  - "4.1"
+  - "0.10"
+  - "0.6"
+
+before_script:
+  - npm install -g ionic
+  - npm install -g grunt-cli
+  - ionic platform add android
+
+script: grunt && ionic build

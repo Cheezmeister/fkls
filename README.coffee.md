@@ -1,7 +1,9 @@
-EV Trainer X
+FKLS
 ============
 
-Rudimentary EV Training Calculator for Pokemon
+The Zero BS Task List.
+
+[MIT Licensed.](LICENSE)
 
 All Systems Go
 --------------

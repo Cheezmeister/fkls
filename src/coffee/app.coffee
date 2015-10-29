@@ -43,7 +43,7 @@ app.controller 'MainCtrl', ($scope, $window, $ionicPopover, util) ->
     hashString = util.hashString
     if !item.context then return "#888"
     hashCode = hashString item.context
-    hue = hashCode % 180 + 180
+    hue = Math.abs(hashCode % 360)
     "hsl(#{hue}, 50%, 50%"
 
   # Adding new items
